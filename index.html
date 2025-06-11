@@ -1,106 +1,1078 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<script src="https://kit.fontawesome.com/a14ae32021.js" crossorigin="anonymous"></script>
+﻿<!DOCTYPE html>
+<html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>This one is for my Auguste</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<style type="text/css">
-@font-face {
-	font-family: digit;
-	src: url('digital-7_mono.ttf') format("truetype");
-}
-</style>
-<link href="css/default.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/garden.js"></script>
-<script type="text/javascript" src="js/functions.js"></script>
+<head>
+    <title>I love you</title>
+    <meta name="Keywords" content="love code, programmer confession">
+    <meta name="Description" content="Love code, HTML file, GitHub love code project">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        @font-face {
+            font-family: 'CursedTimer';
+            src: url('https://cdn.jsdelivr.net/gh/liamcain/CursedTimerULiL@latest/CursedTimerULiL.ttf') format('truetype');
+        }
 
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #clickHeart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(60px, 15vw, 100px);
+            color: #f584b7;
+            cursor: pointer;
+            z-index: 1000;
+            text-shadow: 0 0 20px rgba(245, 132, 183, 0.8);
+            transition: transform 0.3s ease;
+            user-select: none;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #clickHeart:hover, #clickHeart:active {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .mini-heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float-up 2s ease-out forwards;
+            color: #f584b7;
+            font-size: clamp(15px, 4vw, 20px);
+            z-index: 999;
+        }
+
+        .click-heart {
+            width: 10px;
+            height: 10px;
+            position: fixed;
+            background: #f00;
+            transform: rotate(45deg);
+            animation: heartFloat 4s ease-in forwards;
+            z-index: 999;
+        }
+
+        .click-heart:after,
+        .click-heart:before {
+            content: '';
+            width: inherit;
+            height: inherit;
+            background: inherit;
+            border-radius: 50%;
+            position: fixed;
+        }
+
+        .click-heart:after {
+            top: -5px;
+        }
+
+        .click-heart:before {
+            left: -5px;
+        }
+
+        .compliment {
+            position: absolute;
+            pointer-events: none;
+            font-size: clamp(16px, 4vw, 24px);
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            z-index: 999;
+            white-space: nowrap;
+            transform-origin: center;
+            animation: float-compliment 8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+            letter-spacing: 1px;
+            will-change: transform, opacity;
+            filter: blur(0.5px);
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+        }
+
+        @keyframes float-compliment {
+            0% {
+                transform: translate(0, 0) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.9;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            95% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.8) rotate(var(--tr));
+                opacity: 0;
+            }
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: rotate(45deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(45deg) scale(0) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--tr));
+                opacity: 0;
+            }
+        }
+
+        #child {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            width: 90%;
+            max-width: 800px;
+            padding: clamp(20px, 5vw, 30px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
+        #child.visible {
+            opacity: 1;
+        }
+
+        h4 {
+            font-family: 'Arial', sans-serif;
+            font-size: clamp(28px, 7vw, 42px);
+            color: #f584b7;
+            margin: 0 0 25px 0;
+            text-shadow: 0 0 20px rgba(245, 132, 183, 0.3);
+            word-wrap: break-word;
+            transition: transform 0.3s ease;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        #child:hover h4 {
+            transform: scale(1.02);
+            text-shadow: 0 0 30px rgba(245, 132, 183, 0.4);
+        }
+
+        #elapseClock {
+            font-family: 'CursedTimer', monospace;
+            font-size: clamp(32px, 8vw, 48px);
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5),
+                        0 0 5px rgba(255, 255, 255, 0.3);
+            letter-spacing: 3px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+            font-weight: 600;
+        }
+
+        #child:hover #elapseClock {
+            transform: scale(1.01);
+            text-shadow: 0 0 25px rgba(245, 132, 183, 0.4);
+        }
+
+        .time-block {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .digit {
+            display: inline-block;
+            padding: clamp(5px, 1.5vw, 8px) clamp(8px, 2.5vw, 15px);
+            background: linear-gradient(145deg, 
+                rgba(255, 105, 180, 0.15),
+                rgba(255, 105, 180, 0.08)
+            );
+            border-radius: 12px;
+            min-width: 2.5em;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
+        }
+
+        .digit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(245, 132, 183, 0.1),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .digit:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg, rgba(245, 132, 183, 0.15), rgba(245, 132, 183, 0.1));
+            box-shadow: 0 5px 15px rgba(245, 132, 183, 0.2);
+            border-color: rgba(245, 132, 183, 0.2);
+        }
+
+        .digit:hover::before {
+            left: 100%;
+        }
+
+        .time-label {
+            font-size: 0.55em;
+            color: #ff69b4;
+            opacity: 0.95;
+            margin-top: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+        }
+
+        .time-block:hover .time-label {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        @keyframes digit-update {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .digit.updated {
+            animation: digit-update 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, 
+                rgba(255, 105, 180, 0.25),
+                rgba(255, 105, 180, 0.2)
+            );
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            #elapseClock {
+                font-size: clamp(28px, 7vw, 36px);
+                gap: 15px;
+            }
+
+            .digit {
+                padding: 5px 10px;
+                min-width: 2.2em;
+            }
+
+            .time-label {
+                font-size: 0.5em;
+                margin-top: 3px;
+            }
+
+            h4 {
+                font-size: clamp(24px, 6vw, 32px);
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            #elapseClock {
+                font-size: clamp(26px, 6.5vw, 34px);
+                gap: 12px;
+            }
+
+            .digit {
+                padding: 4px 8px;
+            }
+
+            h4 {
+                font-size: clamp(22px, 5vw, 28px);
+                margin-bottom: 15px;
+            }
+
+            .time-label {
+                font-size: 0.48em;
+                margin-top: 2px;
+            }
+        }
+
+        /* Prevent text selection and zoom on double tap for iOS */
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Optimize animations for mobile */
+        @media (prefers-reduced-motion: reduce) {
+            .compliment, .mini-heart, #clickHeart {
+                animation-duration: 2s;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div id="clickHeart">💗</div>
+    <div id="child">
+        <h4>💗 We have been together for</h4>
+        <div id="elapseClock"></div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <canvas id="pinkboard"></canvas>
 
-<div id="mainDiv">
-	<div id="content">
-		<div id="code">
-			<span class="comments">/**</span><br />
-			<span class="space"/><span class="comments">*THE CODE OF LOVE</span><br />
-			<span class="space"/><span class="comments">*/</span><br />
-			Hey Girl !<br />
-			Ar prisimeni tą akimirką, kai pirmą kartą susitikom?<br />
-			<span class="comments">// Gegučių parkas Tuesday. </span><br />
-			Nuo tos akimirkos paleidau Love.exe;<br />
-			<span class="comments">// initializing… tavo veidas, tavo juokas, tavo žvilgsnis.</span><br />
-			Ir nors kodas dar nebuvo tobulas,<br />
-			tavo buvimas jį vis kompiliavo be klaidų.<br />
-			Laikui bėgant mūsų connection tik stiprėjo;<br />
-			Kiekvienas tavo apkabinimas – update mano sielai;<br />
-			Kiekvienas tavo kandžiukas – alert kad tu čia, gyva, tikra, man brangi.<br />
-			Tu – mano mažoji fėja,<br />
-			Kartu mes esam perfect match,<br />
-			Tu mano main(), o aš visad grįšiu pas tave – return you;.<br />
-			Ir jei kada nors pasaulis mus crash'ins,<br />
-			aš reboot'insiu viską – vien tam, kad vėl tave pamatyčiau.<br />
-			<br>
-			<br>
-			All I want to say is:<br />
-			Baby, I will love you forever;<br />
-			<br>
-			<br>
-			Now If you want to hug me you can touch the heart below<br />
-			<br>
-			<span id="heartspan">
-			<a href="image.jpg"><i class="fas fa-heart" id="icon"></i></a>
-			</span>
-		</div>
-		<div id="loveHeart">
-			<canvas id="garden"></canvas>
-			<div id="words">
-				<div id="messages">
-					    	あなたのそばにずっといたい
-					<div id="elapseClock"></div>
-				</div>
-				<div id="loveu">
-					MYLIU!<br/>
-					<div class="signature">- PAULIUS</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
 
-<script type="text/javascript">
-var offsetX = $("#loveHeart").width() / 2;
-var offsetY = $("#loveHeart").height() / 2 - 55;
-var together = new Date();
-together.setFullYear(2025, 4, 6);
-together.setHours(18);
-together.setMinutes(25);
-together.setSeconds(0);
-together.setMilliseconds(0);
 
-if (!document.createElement('canvas').getContext) {
-	var msg = document.createElement("div");
-	msg.id = "errorMsg";
-	msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
-	document.body.appendChild(msg);
-	$("#code").css("display", "none")
-	$("#copyright").css("position", "absolute");
-	$("#copyright").css("bottom", "10px");
-	document.execCommand("stop");
-} else {
-	setTimeout(function () {
-		startHeartAnimation();
-	}, 5000);
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
 
-	timeElapse(together);
-	setInterval(function () {
-		timeElapse(together);
-	}, 500);
+        var texts = 'I LOVE U'.split('');
 
-	adjustCodePosition();
-	$("#code").typewriter();
-}
-</script>
-</body>
-</html>
+        var fontSize = 16;
+        var columns = canvas.width / fontSize;
+        // Used to calculate text output coordinates, so length is the number of columns
+        var drops = [];
+        //Initial value
+        for (var x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            //Make background gradually change from transparent to opaque
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //Text color
+            ctx.fillStyle = '#f584b7';
+            ctx.font = fontSize + 'px arial';
+            //Output text line by line
+            for (var i = 0; i < drops.length; i++) {
+                var text = texts[Math.floor(Math.random() * texts.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height || Math.random() > 0.95) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+    </script>
+
+    <script>
+        // Make sure this is at the very beginning of your script
+        window.heartAnimationStarted = false;
+
+        // Update the compliments array with colors
+        const compliments = [
+            // Height-related compliments
+            ["MY LITTLE AUGUSTE", "#ff69b4"],
+            ["30CM DIFFERENCE", "#ff1493"],
+            ["MY TINY QUEEN", "#ff69b4"],
+            ["PERFECT HEIGHT GAP", "#ff1493"],
+            ["MY SHORTY", "#ff69b4"],
+            ["161CM OF CUTENESS", "#ff1493"],
+            ["TALL & SHORT", "#ff69b4"],
+            ["MY LITTLE GIANT", "#ff1493"],
+            ["PERFECT HEIGHT", "#ff69b4"],
+            ["MY POCKET-SIZED LOVE", "#ff1493"],
+            
+            // Anime-related compliments
+            ["MY ANIME QUEEN", "#ff69b4"],
+            ["ANIME LOVER", "#ff1493"],
+            ["OTAKU PRINCESS", "#ff69b4"],
+            ["ANIME BINGE QUEEN", "#ff1493"],
+            ["MY ANIME BUDDY", "#ff69b4"],
+            ["ANIME MARATHON PARTNER", "#ff1493"],
+            ["ANIME ENTHUSIAST", "#ff69b4"],
+            ["MY ANIME EXPERT", "#ff1493"],
+            ["ANIME WATCHING BUDDY", "#ff69b4"],
+            ["ANIME NIGHT PARTNER", "#ff1493"],
+            
+            // Gaming-related compliments
+            ["WUWA PLAYER", "#ff69b4"],
+            ["GACHA QUEEN", "#ff1493"],
+            ["MY GAMER GIRL", "#ff69b4"],
+            ["GACHA MASTER", "#ff1493"],
+            ["WUWA ENTHUSIAST", "#ff69b4"],
+            ["GAMING BUDDY", "#ff1493"],
+            ["GACHA ADDICT", "#ff69b4"],
+            ["WUWA WARRIOR", "#ff1493"],
+            ["MY GAMING PARTNER", "#ff69b4"],
+            ["GACHA COLLECTOR", "#ff1493"],
+            
+            // Reading-related compliments
+            ["BOOKWORM", "#ff69b4"],
+            ["READING QUEEN", "#ff1493"],
+            ["MY BOOK LOVER", "#ff69b4"],
+            ["LITERARY GENIUS", "#ff1493"],
+            ["BOOK BINGE QUEEN", "#ff69b4"],
+            ["READING BUDDY", "#ff1493"],
+            ["MY BOOKWORM", "#ff69b4"],
+            ["STORY LOVER", "#ff1493"],
+            ["READING MARATHON QUEEN", "#ff69b4"],
+            ["BOOK COLLECTOR", "#ff1493"],
+            
+            // Biting-related compliments
+            ["CUTE BITER", "#ff69b4"],
+            ["MY LITTLE VAMPIRE", "#ff1493"],
+            ["LOVE BITES", "#ff69b4"],
+            ["CUTE NIBBLER", "#ff1493"],
+            ["MY BITER", "#ff69b4"],
+            ["LOVE MARKS", "#ff1493"],
+            ["CUTE VAMPIRE", "#ff69b4"],
+            ["MY NIBBLER", "#ff1493"],
+            ["LOVE NIBBLES", "#ff69b4"],
+            ["BITING QUEEN", "#ff1493"],
+            
+            // Combined traits
+            ["ANIME & BOOKS", "#ff69b4"],
+            ["GAMING & BITING", "#ff1493"],
+            ["ANIME GAMER", "#ff69b4"],
+            ["BOOK & GAME QUEEN", "#ff1493"],
+            ["ANIME BOOKWORM", "#ff69b4"],
+            ["GAMING VAMPIRE", "#ff1493"],
+            ["ANIME BITING QUEEN", "#ff69b4"],
+            ["BOOK GAMER", "#ff1493"],
+            ["ANIME & GACHA", "#ff69b4"],
+            ["READING VAMPIRE", "#ff1493"],
+            
+            // Pet names and endearments
+            ["MY AUGUSTE", "#ff69b4"],
+            ["MY LOVE", "#ff1493"],
+            ["MY QUEEN", "#ff69b4"],
+            ["MY PRINCESS", "#ff1493"],
+            ["MY ANGEL", "#ff69b4"],
+            ["MY SWEETIE", "#ff1493"],
+            ["MY DEAR", "#ff69b4"],
+            ["MY HEART", "#ff1493"],
+            ["MY TREASURE", "#ff69b4"],
+            ["MY EVERYTHING", "#ff1493"],
+            
+            // Relationship moments
+            ["ANIME WATCHING BUDDY", "#ff69b4"],
+            ["GAMING PARTNER", "#ff1493"],
+            ["BOOK READING DATE", "#ff69b4"],
+            ["GACHA PULLING BUDDY", "#ff1493"],
+            ["ANIME MARATHON DATE", "#ff69b4"],
+            ["WUWA ADVENTURE", "#ff1493"],
+            ["READING TOGETHER", "#ff69b4"],
+            ["GAMING NIGHT", "#ff1493"],
+            ["ANIME BINGE DATE", "#ff69b4"],
+            ["BOOK CLUB DATE", "#ff1493"],
+            
+            // Playful variations
+            ["TINY ANIME QUEEN", "#ff69b4"],
+            ["POCKET-SIZED GAMER", "#ff1493"],
+            ["LITTLE BOOKWORM", "#ff69b4"],
+            ["MINI VAMPIRE", "#ff1493"],
+            ["SHORTY GAMER", "#ff69b4"],
+            ["TINY GACHA QUEEN", "#ff1493"],
+            ["LITTLE ANIME LOVER", "#ff69b4"],
+            ["POCKET-SIZED READER", "#ff1493"],
+            ["MINI GAMING QUEEN", "#ff69b4"],
+            ["SHORTY BOOK LOVER", "#ff1493"]
+        ];
+
+        function createCompliment(x, y) {
+            const compliment = document.createElement('div');
+            compliment.className = 'compliment';
+            const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+            compliment.textContent = randomCompliment[0];
+            compliment.style.color = randomCompliment[1];
+            
+            // Get timer container position
+            const timerContainer = document.getElementById('child');
+            const timerRect = timerContainer.getBoundingClientRect();
+            
+            // Calculate starting position with better spacing
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.min(timerRect.width, timerRect.height) * 0.8; // Increased radius for better spread
+            const startX = timerRect.left + timerRect.width/2 + Math.cos(angle) * radius;
+            const startY = timerRect.top + timerRect.height/2 + Math.sin(angle) * radius;
+            
+            // Set initial position
+            compliment.style.left = startX + 'px';
+            compliment.style.top = startY + 'px';
+            
+            // Calculate movement direction with better spread and reduced overlap
+            const moveAngle = angle + (Math.random() - 0.5) * Math.PI/4; // Reduced angle variation
+            const distance = Math.min(window.innerWidth, window.innerHeight) * 0.4; // Reduced distance
+            const tx = Math.cos(moveAngle) * distance;
+            const ty = Math.sin(moveAngle) * distance - 100; // Added upward bias
+            
+            compliment.style.setProperty('--tx', tx + 'px');
+            compliment.style.setProperty('--ty', ty + 'px');
+            
+            // Add random rotation for more natural movement
+            const rotation = (Math.random() - 0.5) * 30; // Max 15 degrees rotation
+            compliment.style.setProperty('--tr', rotation + 'deg');
+            
+            document.body.appendChild(compliment);
+            
+            // Remove and create new compliment after animation with increased delay
+            setTimeout(() => {
+                compliment.remove();
+                // Create new compliment with increased delay
+                setTimeout(() => {
+                    createCompliment(timerRect.left + timerRect.width/2, timerRect.top + timerRect.height/2);
+                }, Math.random() * 2000 + 1000); // Random delay between 1-3s
+            }, 8000);
+        }
+
+        function createComplimentExplosion(x, y) {
+            const numCompliments = 12; // Reduced number for better spacing
+            const timerContainer = document.getElementById('child');
+            const timerRect = timerContainer.getBoundingClientRect();
+            
+            // Create a spiral pattern with better spacing
+            for (let i = 0; i < numCompliments; i++) {
+                setTimeout(() => {
+                    const angle = (i / numCompliments) * Math.PI * 3; // 1.5 rotations
+                    const radius = Math.min(timerRect.width, timerRect.height) * (0.5 + (i / numCompliments) * 0.3);
+                    const startX = timerRect.left + timerRect.width/2 + Math.cos(angle) * radius;
+                    const startY = timerRect.top + timerRect.height/2 + Math.sin(angle) * radius;
+                    createCompliment(startX, startY);
+                }, i * 300); // Increased delay between compliments
+            }
+        }
+
+        function startContinuousCompliments() {
+            const timerContainer = document.getElementById('child');
+            const timerRect = timerContainer.getBoundingClientRect();
+            
+            // Create initial compliments with better spacing
+            for (let i = 0; i < 4; i++) { // Reduced number of initial compliments
+                setTimeout(() => {
+                    const angle = (i / 4) * Math.PI * 2; // Full rotation
+                    const radius = Math.min(timerRect.width, timerRect.height) * (0.6 + (i / 4) * 0.2);
+                    const startX = timerRect.left + timerRect.width/2 + Math.cos(angle) * radius;
+                    const startY = timerRect.top + timerRect.height/2 + Math.sin(angle) * radius;
+                    createCompliment(startX, startY);
+                }, i * 400); // Increased delay between initial compliments
+            }
+        }
+
+        // Start continuous compliments when the main heart is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            const clickHeart = document.getElementById('clickHeart');
+            if (clickHeart) {
+                clickHeart.addEventListener('click', function(e) {
+                    console.log('Heart clicked!');
+                    const rect = this.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    
+                    createExplosion(x, y);
+                    this.style.display = 'none';
+                    
+                    const child = document.getElementById('child');
+                    if (child) {
+                        child.classList.add('visible');
+                    }
+                    
+                    if (!window.heartAnimationStarted) {
+                        window.heartAnimationStarted = true;
+                        startHeartAnimation();
+                        startContinuousCompliments(); // Start continuous compliments
+                    }
+                });
+            } else {
+                console.error('Click heart element not found!');
+            }
+        });
+
+        function startHeartAnimation() {
+            var canvas = document.getElementById('pinkboard');
+            var context = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            if (typeof render === 'function') {
+                render();
+            }
+        }
+
+        function createExplosion(x, y) {
+            const numHearts = Math.min(100, Math.floor(window.innerWidth * window.innerHeight / 10000));
+            const container = document.body;
+            
+            // Create heart explosion
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '💗';
+                heart.className = 'mini-heart';
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.min(window.innerWidth, window.innerHeight) * 0.3;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const tr = Math.random() * 360;
+                
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+                heart.style.setProperty('--tr', tr + 'deg');
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 2000);
+            }
+
+            // Create compliment explosion
+            createComplimentExplosion(x, y);
+        }
+
+        // Timer code should be placed here, before the heart animation code
+        var together = new Date();
+        together.setFullYear(2025, 4, 6); // Set your start date here (year, month-1, day)
+        together.setHours(18);
+        together.setMinutes(25);
+        together.setSeconds(0);
+        together.setMilliseconds(0);
+
+        function timeElapse(date) {
+            var current = new Date();
+            var seconds = (Date.parse(current) - Date.parse(date)) / 1000;
+            var days = Math.floor(seconds / (3600 * 24));
+            seconds = seconds % (3600 * 24);
+            var hours = Math.floor(seconds / 3600);
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            seconds = seconds % 3600;
+            var minutes = Math.floor(seconds / 60);
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            seconds = seconds % 60;
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+
+            // Store previous values to check for updates
+            if (!window.previousTime) {
+                window.previousTime = { days, hours, minutes, seconds };
+            }
+
+            // Create the HTML with interactive elements
+            var result = 
+                `<div class="time-block">
+                    <span class="digit ${days !== window.previousTime.days ? 'updated' : ''}">${days}</span>
+                    <span class="time-label">days</span>
+                </div>
+                <div class="time-block">
+                    <span class="digit ${hours !== window.previousTime.hours ? 'updated' : ''}">${hours}</span>
+                    <span class="time-label">hours</span>
+                </div>
+                <div class="time-block">
+                    <span class="digit ${minutes !== window.previousTime.minutes ? 'updated' : ''}">${minutes}</span>
+                    <span class="time-label">min</span>
+    </div>
+                <div class="time-block">
+                    <span class="digit ${seconds !== window.previousTime.seconds ? 'updated' : ''}">${seconds}</span>
+                    <span class="time-label">sec</span>
+                </div>`;
+
+            // Update previous values
+            window.previousTime = { days, hours, minutes, seconds };
+
+            // Add some random heart particles when seconds change
+            if (seconds !== window.previousTime.seconds) {
+                createHeartParticles();
+            }
+
+            $("#elapseClock").html(result);
+
+            // Remove the 'updated' class after animation
+            setTimeout(() => {
+                $('.digit.updated').removeClass('updated');
+            }, 300);
+        }
+
+        function createHeartParticles() {
+            const container = document.getElementById('child');
+            const rect = container.getBoundingClientRect();
+            
+            for (let i = 0; i < 3; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '💗';
+                heart.style.position = 'absolute';
+                heart.style.left = (rect.width * Math.random()) + 'px';
+                heart.style.top = (rect.height * Math.random()) + 'px';
+                heart.style.fontSize = '20px';
+                heart.style.opacity = '0.8';
+                heart.style.animation = 'float-up 1s ease-out forwards';
+                heart.style.zIndex = '1001';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
+
+        // Add touch feedback for mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const child = document.getElementById('child');
+            if (child) {
+                child.addEventListener('touchstart', function() {
+                    this.style.transform = 'translate(-50%, -50%) scale(0.98)';
+                });
+                
+                child.addEventListener('touchend', function() {
+                    this.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            }
+        });
+
+        // Start the timer when the document is ready
+        $(document).ready(function() {
+            timeElapse(together);
+            setInterval(function() {
+                timeElapse(together);
+            }, 1000);
+        });
+
+        /*
+       * Settings
+       */
+        var settings = {
+            particles: {
+                length: 500, // maximum amount of particles
+                duration: 2, // particle duration in sec
+                velocity: 100, // particle velocity in pixels/sec
+                effect: -0.75, // play with this for a nice effect
+                size: 30, // particle size in pixels
+            },
+        };
+
+        /*
+         * RequestAnimationFrame polyfill by Erik Möller
+         */
+        (function () { var b = 0; var c = ["ms", "moz", "webkit", "o"]; for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) { window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"]; window.cancelAnimationFrame = window[c[a] + "CancelAnimationFrame"] || window[c[a] + "CancelRequestAnimationFrame"] } if (!window.requestAnimationFrame) { window.requestAnimationFrame = function (h, e) { var d = new Date().getTime(); var f = Math.max(0, 16 - (d - b)); var g = window.setTimeout(function () { h(d + f) }, f); b = d + f; return g } } if (!window.cancelAnimationFrame) { window.cancelAnimationFrame = function (d) { clearTimeout(d) } } }());
+
+        /*
+         * Point class
+         */
+        var Point = (function () {
+            function Point(x, y) {
+                this.x = (typeof x !== 'undefined') ? x : 0;
+                this.y = (typeof y !== 'undefined') ? y : 0;
+            }
+            Point.prototype.clone = function () {
+                return new Point(this.x, this.y);
+            };
+            Point.prototype.length = function (length) {
+                if (typeof length == 'undefined')
+                    return Math.sqrt(this.x * this.x + this.y * this.y);
+                this.normalize();
+                this.x *= length;
+                this.y *= length;
+                return this;
+            };
+            Point.prototype.normalize = function () {
+                var length = this.length();
+                this.x /= length;
+                this.y /= length;
+                return this;
+            };
+            return Point;
+        })();
+
+        /*
+         * Particle class
+         */
+        var Particle = (function () {
+            function Particle() {
+                this.position = new Point();
+                this.velocity = new Point();
+                this.acceleration = new Point();
+                this.age = 0;
+            }
+            Particle.prototype.initialize = function (x, y, dx, dy) {
+                this.position.x = x;
+                this.position.y = y;
+                this.velocity.x = dx;
+                this.velocity.y = dy;
+                this.acceleration.x = dx * settings.particles.effect;
+                this.acceleration.y = dy * settings.particles.effect;
+                this.age = 0;
+            };
+            Particle.prototype.update = function (deltaTime) {
+                this.position.x += this.velocity.x * deltaTime;
+                this.position.y += this.velocity.y * deltaTime;
+                this.velocity.x += this.acceleration.x * deltaTime;
+                this.velocity.y += this.acceleration.y * deltaTime;
+                this.age += deltaTime;
+            };
+            Particle.prototype.draw = function (context, image) {
+                function ease(t) {
+                    return (--t) * t * t + 1;
+                }
+                var size = image.width * ease(this.age / settings.particles.duration);
+                context.globalAlpha = 1 - this.age / settings.particles.duration;
+                context.drawImage(image, this.position.x - size / 2, this.position.y - size / 2, size, size);
+            };
+            return Particle;
+        })();
+
+        /*
+         * ParticlePool class
+         */
+        var ParticlePool = (function () {
+            var particles,
+                firstActive = 0,
+                firstFree = 0,
+                duration = settings.particles.duration;
+
+            function ParticlePool(length) {
+                // create and populate particle pool
+                particles = new Array(length);
+                for (var i = 0; i < particles.length; i++)
+                    particles[i] = new Particle();
+            }
+            ParticlePool.prototype.add = function (x, y, dx, dy) {
+                particles[firstFree].initialize(x, y, dx, dy);
+
+                // handle circular queue
+                firstFree++;
+                if (firstFree == particles.length) firstFree = 0;
+                if (firstActive == firstFree) firstActive++;
+                if (firstActive == particles.length) firstActive = 0;
+            };
+            ParticlePool.prototype.update = function (deltaTime) {
+                var i;
+
+                // update active particles
+                if (firstActive < firstFree) {
+                    for (i = firstActive; i < firstFree; i++)
+                        particles[i].update(deltaTime);
+                }
+                if (firstFree < firstActive) {
+                    for (i = firstActive; i < particles.length; i++)
+                        particles[i].update(deltaTime);
+                    for (i = 0; i < firstFree; i++)
+                        particles[i].update(deltaTime);
+                }
+
+                // remove inactive particles
+                while (particles[firstActive].age >= duration && firstActive != firstFree) {
+                    firstActive++;
+                    if (firstActive == particles.length) firstActive = 0;
+                }
+
+
+            };
+            ParticlePool.prototype.draw = function (context, image) {
+                // draw active particles
+                if (firstActive < firstFree) {
+                    for (i = firstActive; i < firstFree; i++)
+                        particles[i].draw(context, image);
+                }
+                if (firstFree < firstActive) {
+                    for (i = firstActive; i < particles.length; i++)
+                        particles[i].draw(context, image);
+                    for (i = 0; i < firstFree; i++)
+                        particles[i].draw(context, image);
+                }
+            };
+            return ParticlePool;
+        })();
+
+        /*
+         * Putting it all together
+         */
+        (function (canvas) {
+            var context = canvas.getContext('2d'),
+                particles = new ParticlePool(settings.particles.length),
+                particleRate = settings.particles.length / settings.particles.duration, // particles/sec
+                time;
+
+            // get point on heart with -PI <= t <= PI
+            function pointOnHeart(t) {
+                return new Point(
+                    160 * Math.pow(Math.sin(t), 3),
+                    130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+                );
+            }
+
+            // creating the particle image using a dummy canvas
+            var image = (function () {
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext('2d');
+                canvas.width = settings.particles.size;
+                canvas.height = settings.particles.size;
+                // helper function to create the path
+                function to(t) {
+                    var point = pointOnHeart(t);
+                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
+                    return point;
+                }
+                // create the path
+                context.beginPath();
+                var t = -Math.PI;
+                var point = to(t);
+                context.moveTo(point.x, point.y);
+                while (t < Math.PI) {
+                    t += 0.01; // baby steps!
+                    point = to(t);
+                    context.lineTo(point.x, point.y);
+                }
+                context.closePath();
+                // create the fill
+                context.fillStyle = '#ea80b0';
+                context.fill();
+                // create the image
+                var image = new Image();
+                image.src = canvas.toDataURL();
+                return image;
+            })();
+
+            // render that thing!
+            function render() {
+                // next animation frame
+                requestAnimationFrame(render);
+
+                // update time
+                var newTime = new Date().getTime() / 1000,
+                    deltaTime = newTime - (time || newTime);
+                time = newTime;
+
+                // clear canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                // create new particles
+                var amount = particleRate * deltaTime;
+                for (var i = 0; i < amount; i++) {
+                    var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
+                    var dir = pos.clone().length(settings.particles.velocity);
+                    particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y);
+                }
+
+                // update and draw particles
+                particles.update(deltaTime);
+                particles.draw(context, image);
+            }
+
+            // handle (re-)sizing of the canvas
+            function onResize() {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+            window.onresize = onResize;
+
+            // delay rendering bootstrap
+            setTimeout(function () {
+                onResize();
+                render();
+            }, 10);
+        })(document.getElementById('pinkboard'));
+
+        // Add this at the beginning of your script section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent double-tap zoom on iOS
+            document.addEventListener('touchend', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+
+            // Handle orientation changes
+            window.addEventListener('orientationchange', function() {
+                setTimeout(function() {
+                    // Update canvas sizes
+                    var canvas = document.getElementById('canvas');
+                    var pinkboard = document.getElementById('pinkboard');
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    pinkboard.width = window.innerWidth;
+                    pinkboard.height = window.innerHeight;
+                    
+                    // Update columns for matrix effect
+                    columns = canvas.width / fontSize;
+                    drops = [];
+                    for (var x = 0; x < columns; x++) {
+                        drops[x] = 1;
+                    }
+                }, 100);
+            });
+
+            // Handle resize events
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    var canvas = document.getElementById('canvas');
+                    var pinkboard = document.getElementById('pinkboard');
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    pinkboard.width = window.innerWidth;
+                    pinkboard.height = window.innerHeight;
+                    
+                    // Update columns for matrix effect
+                    columns = canvas.width / fontSize;
+                    drops = [];
+                    for (var x = 0; x < columns; x++) {
+                        drops[x] = 1;
+                    }
+                }, 250);
+            });
+        });
+    </script>
+
+</BODY>
+<!--                           
+<audio controls>
+  <source src="Alan Walker-Faded.mp3" type="audio/ogg">
+  <source src="Alan Walker-Faded.mp3" type="audio/mpeg">
+</audio >
+     -->
+
+
+</HTML>
