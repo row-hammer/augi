@@ -40,16 +40,28 @@
             font-size: clamp(60px, 15vw, 100px);
             color: #f584b7;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 9999;
             text-shadow: 0 0 20px rgba(245, 132, 183, 0.8);
             transition: transform 0.3s ease;
             user-select: none;
             pointer-events: auto;
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        #clickHeart:hover, #clickHeart:active {
+        #clickHeart:active {
             transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        @media (hover: hover) {
+            #clickHeart:hover {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
         }
 
         .mini-heart {
@@ -518,7 +530,7 @@
             ["MY PRECIOUS ANGEL", "#ff69b4"],
             ["MY SWEET DESTINY", "#ff1493"]
         ];
-        
+
         function createCompliment(x, y) {
             const compliment = document.createElement('div');
             compliment.className = 'compliment';
@@ -598,12 +610,14 @@
             }
         }
 
-        // Start continuous compliments when the main heart is clicked
+        // Update the click event listener
         document.addEventListener('DOMContentLoaded', function() {
             const clickHeart = document.getElementById('clickHeart');
             if (clickHeart) {
-                clickHeart.addEventListener('click', function(e) {
-                    console.log('Heart clicked!');
+                // Add both click and touch events
+                const handleHeartClick = function(e) {
+                    e.preventDefault(); // Prevent any default behavior
+                    console.log('Heart clicked/touched!');
                     const rect = this.getBoundingClientRect();
                     const x = rect.left + rect.width / 2;
                     const y = rect.top + rect.height / 2;
@@ -619,9 +633,22 @@
                     if (!window.heartAnimationStarted) {
                         window.heartAnimationStarted = true;
                         startHeartAnimation();
-                        startContinuousCompliments(); // Start continuous compliments
+                        startContinuousCompliments();
                     }
-                });
+                };
+
+                // Add both click and touch events
+                clickHeart.addEventListener('click', handleHeartClick);
+                clickHeart.addEventListener('touchend', handleHeartClick, { passive: false });
+                
+                // Prevent any default touch behaviors
+                clickHeart.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+                
+                clickHeart.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
             } else {
                 console.error('Click heart element not found!');
             }
@@ -757,20 +784,6 @@
                 setTimeout(() => heart.remove(), 1000);
             }
         }
-
-        // Add touch feedback for mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            const child = document.getElementById('child');
-            if (child) {
-                child.addEventListener('touchstart', function() {
-                    this.style.transform = 'translate(-50%, -50%) scale(0.98)';
-                });
-                
-                child.addEventListener('touchend', function() {
-                    this.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
-            }
-        });
 
         // Start the timer when the document is ready
         $(document).ready(function() {
