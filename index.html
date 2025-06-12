@@ -24,11 +24,11 @@
         html, body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
             background: #000;
-            width: 100%;
-            height: 100%;
-            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -107,7 +107,7 @@
             font-size: clamp(16px, 4vw, 24px);
             font-family: 'Arial', sans-serif;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-            z-index: 999;
+            z-index: 980;
             white-space: nowrap;
             transform-origin: center;
             animation: float-compliment 8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -191,6 +191,13 @@
             transition: transform 0.3s ease;
             font-weight: 300;
             letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 105, 180, 0.15);
+            box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
         }
 
         #child:hover h4 {
@@ -215,7 +222,7 @@
 
         #child:hover #elapseClock {
             transform: scale(1.01);
-            text-shadow: 0 0 25px rgba(245, 132, 183, 0.4);
+            text-shadow: 0 0 25px rgba(245, 132, 180, 0.4);
         }
 
         .time-block {
@@ -363,6 +370,83 @@
                 animation-duration: 2s;
             }
         }
+
+        /* Garfield Feature Container: positioned fixed to keep layout stable */
+        #garfield-feature-container {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            max-width: 60vw;
+            height: auto;
+            z-index: 990; /* Below timer (1000), above canvas (0) */
+            bottom: 20px; /* Position Garfield from the bottom */
+            opacity: 0;
+            visibility: hidden; /* Changed from display: none */
+            transition: opacity 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #garfield-img {
+            display: block;
+            margin: 0 auto;
+            user-select: none;
+            touch-action: manipulation;
+            width: 100%; /* Fill container width */
+            height: auto;
+            pointer-events: none; /* Initially non-clickable */
+        }
+
+        /* Garfield Speech Bubble */
+        #garfield-speech {
+            display: none; /* Keep hidden until Garfield fades in */
+            background: rgba(255, 255, 255, 0.08); /* Changed to match h4 transparency */
+            color: #f584b7;
+            border-radius: 15px; /* Changed to match h4 */
+            padding: 16px 22px;
+            font-size: 1.08rem;
+            font-family: 'Arial', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1); /* Changed to match h4 */
+            border: 1px solid rgba(255, 105, 180, 0.15); /* Changed to match h4 */
+            text-align: center;
+            position: relative;
+            z-index: 995; /* Higher than Garfield img, below Garfield container */
+            cursor: pointer;
+            letter-spacing: 1px;
+            margin-bottom: 10px; /* Space between Garfield and bubble */
+            pointer-events: auto; /* Enable click */
+            backdrop-filter: blur(5px); /* Added to match h4 */
+            -webkit-backdrop-filter: blur(5px); /* Added for webkit compatibility */
+        }
+        #garfield-speech::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -18px; /* Point downwards from the bottom */
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 18px solid rgba(255, 255, 255, 0.08); /* Changed to match speech bubble background */
+            filter: drop-shadow(0 2px 0 #ff69b4); /* Pink border shadow */
+        }
+        @media (max-width: 600px) {
+            #garfield-feature-container {
+                width: 38vw;
+                min-width: 120px;
+            }
+            #garfield-speech {
+                font-size: 0.98rem;
+                padding: 10px 12px;
+                margin-bottom: 8px; /* Adjusted for smaller screens */
+            }
+            #garfield-speech::before {
+                bottom: -12px;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 12px solid #fff;
+            }
+        }
     </style>
 </head>
 
@@ -371,6 +455,18 @@
     <div id="child">
         <h4>💗 We have been together for</h4>
         <div id="elapseClock"></div>
+    </div>
+    <!-- Garfield Animation Container: below timer -->
+    <div id="garfield-feature-container">
+        <img
+            id="garfield-img"
+            src="garfield.png"
+            alt="Garfield scratching"
+            draggable="false"
+        />
+        <div id="garfield-speech">
+            Mazi, if I could show you how much I love you in numbers... click me<br />
+        </div>
     </div>
     <canvas id="canvas"></canvas>
     <canvas id="pinkboard"></canvas>
@@ -441,7 +537,7 @@
             ["SNUGGLING DURING ANIME", "#ff1493"],
             ["ANIME NIGHTS WITH MY HEART", "#ff69b4"],
             ["WATCHING ANIME WITH MY LOVE", "#ff1493"],
-            ["MY ANIME SNUGGLE PARTNER", "#ff69b4"],
+            ["MY ANIME SNUGGLE PARTNER", "#ff1493"],
             ["ANIME CUDDLES WITH YOU", "#ff1493"],
             ["MY ANIME LOVE", "#ff69b4"],
             ["ANIME DATES WITH MY HEART", "#ff1493"],
@@ -463,23 +559,23 @@
             ["MY BOOKWORM LOVE", "#ff1493"],
             ["READING WITH MY HEART", "#ff69b4"],
             ["STORY TIME WITH MY ANGEL", "#ff1493"],
-            ["MY READING SWEETHEART", "#ff69b4"],
+            ["MY READING SWEETHEART", "#ff1493"],
             ["BOOK CUDDLES WITH YOU", "#ff1493"],
-            ["READING WITH MY TREASURE", "#ff69b4"],
+            ["READING WITH MY TREASURE", "#ff1493"],
             ["MY LITERARY LOVE", "#ff1493"],
-            ["STORY SHARING WITH MY HEART", "#ff69b4"],
+            ["STORY SHARING WITH MY HEART", "#ff1493"],
             ["READING DATES FOREVER", "#ff1493"],
             
             // Romantic biting moments
             ["LOVE BITES FROM MY HEART", "#ff69b4"],
             ["MY CUTE LITTLE VAMPIRE", "#ff1493"],
-            ["LOVE MARKS FROM MY ANGEL", "#ff69b4"],
+            ["LOVE MARKS FROM MY ANGEL", "#ff1493"],
             ["MY SWEET LITTLE BITER", "#ff1493"],
-            ["LOVE NIBBLES FROM MY HEART", "#ff69b4"],
+            ["LOVE NIBBLES FROM MY HEART", "#ff1493"],
             ["MY CUTE VAMPIRE LOVE", "#ff1493"],
             ["LOVE BITES FOREVER", "#ff69b4"],
             ["MY LITTLE LOVE BITER", "#ff1493"],
-            ["SWEET LOVE MARKS", "#ff69b4"],
+            ["SWEET LOVE MARKS", "#ff1493"],
             ["MY BITING TREASURE", "#ff1493"],
             
             // Deep romantic feelings
@@ -503,7 +599,7 @@
             ["MY WARM EMBRACE", "#ff1493"],
             ["CUDDLES WITH MY LOVE", "#ff69b4"],
             ["MY SWEET EMBRACE", "#ff1493"],
-            ["HOLDING MY TREASURE", "#ff69b4"],
+            ["HOLDING MY TREASURE", "#ff1493"],
             ["MY PERFECT CUDDLE", "#ff1493"],
             
             // Future together
@@ -523,11 +619,11 @@
             ["MY PRECIOUS LOVE", "#ff1493"],
             ["MY DEAR HEART", "#ff69b4"],
             ["MY SWEET TREASURE", "#ff1493"],
-            ["MY BELOVED", "#ff69b4"],
+            ["MY BELOVED", "#ff1493"],
             ["MY PRECIOUS ONE", "#ff1493"],
-            ["MY SWEET HEART", "#ff69b4"],
+            ["MY SWEET HEART", "#ff1493"],
             ["MY DEAR ANGEL", "#ff1493"],
-            ["MY PRECIOUS ANGEL", "#ff69b4"],
+            ["MY PRECIOUS ANGEL", "#ff1493"],
             ["MY SWEET DESTINY", "#ff1493"]
         ];
 
@@ -573,7 +669,7 @@
                 // Create new compliment with increased delay
                 setTimeout(() => {
                     createCompliment(timerRect.left + timerRect.width/2, timerRect.top + timerRect.height/2);
-                }, Math.random() * 2000 + 1000); // Random delay between 1-3s
+                }, Math.random() * 2000 + 1000);
             }, 8000);
         }
 
@@ -590,7 +686,7 @@
                     const startX = timerRect.left + timerRect.width/2 + Math.cos(angle) * radius;
                     const startY = timerRect.top + timerRect.height/2 + Math.sin(angle) * radius;
                     createCompliment(startX, startY);
-                }, i * 300); // Increased delay between compliments
+                }, i * 300);
             }
         }
 
@@ -606,11 +702,11 @@
                     const startX = timerRect.left + timerRect.width/2 + Math.cos(angle) * radius;
                     const startY = timerRect.top + timerRect.height/2 + Math.sin(angle) * radius;
                     createCompliment(startX, startY);
-                }, i * 400); // Increased delay between initial compliments
+                }, i * 400);
             }
         }
 
-        // Update the click event listener
+        // Start continuous compliments when the main heart is clicked
         document.addEventListener('DOMContentLoaded', function() {
             const clickHeart = document.getElementById('clickHeart');
             if (clickHeart) {
@@ -633,7 +729,7 @@
                     if (!window.heartAnimationStarted) {
                         window.heartAnimationStarted = true;
                         startHeartAnimation();
-                        startContinuousCompliments();
+                        startContinuousCompliments(); // Start continuous compliments
                     }
                 };
 
@@ -673,7 +769,7 @@
             for (let i = 0; i < numHearts; i++) {
                 const heart = document.createElement('div');
                 heart.innerHTML = '💗';
-                heart.className = 'mini-heart';
+                heart.style.position = 'absolute';
                 heart.style.left = x + 'px';
                 heart.style.top = y + 'px';
                 
@@ -814,7 +910,7 @@
         /*
          * Point class
          */
-        var Point = (function () {
+        (function () {
             function Point(x, y) {
                 this.x = (typeof x !== 'undefined') ? x : 0;
                 this.y = (typeof y !== 'undefined') ? y : 0;
@@ -836,13 +932,13 @@
                 this.y /= length;
                 return this;
             };
-            return Point;
+            window.Point = Point; // Make Point globally accessible
         })();
 
         /*
          * Particle class
          */
-        var Particle = (function () {
+        (function () {
             function Particle() {
                 this.position = new Point();
                 this.velocity = new Point();
@@ -873,13 +969,13 @@
                 context.globalAlpha = 1 - this.age / settings.particles.duration;
                 context.drawImage(image, this.position.x - size / 2, this.position.y - size / 2, size, size);
             };
-            return Particle;
+            window.Particle = Particle; // Make Particle globally accessible
         })();
 
         /*
          * ParticlePool class
          */
-        var ParticlePool = (function () {
+        (function () {
             var particles,
                 firstActive = 0,
                 firstFree = 0,
@@ -936,7 +1032,7 @@
                         particles[i].draw(context, image);
                 }
             };
-            return ParticlePool;
+            window.ParticlePool = ParticlePool; // Make ParticlePool globally accessible
         })();
 
         /*
@@ -1077,7 +1173,96 @@
                 }, 250);
             });
         });
-    </script>
+
+
+// Trigger Garfield fade-in after heart click and timer appears
+window.addEventListener('DOMContentLoaded', function() {
+    const clickHeart = document.getElementById('clickHeart');
+    const garfieldContainer = document.getElementById('garfield-feature-container');
+    const garfieldImg = document.getElementById('garfield-img');
+    const speech = document.getElementById('garfield-speech');
+    const child = document.getElementById('child'); // The timer container
+
+    // Remove the old page load fade-in listener if it exists
+    // window.removeEventListener('load', oldStartGarfieldFadeIn);
+
+    if (clickHeart && garfieldContainer && child) {
+        const handleGarfieldActivation = function() {
+            // Make timer visible (this might already be done by heart click handler)
+            child.classList.add('visible'); // Assuming this makes the timer visible
+
+            // Set Garfield container to visible and then fade in
+            garfieldContainer.style.visibility = 'visible';
+            setTimeout(function() {
+                garfieldContainer.style.opacity = '1';
+            }, 100); // Small delay to ensure visibility change is processed before opacity transition
+
+            // When Garfield fade-in ends, show speech bubble and enable click
+            garfieldContainer.addEventListener('transitionend', function handler() {
+                garfieldContainer.removeEventListener('transitionend', handler);
+                speech.style.display = 'block';
+                garfieldImg.style.pointerEvents = 'auto';
+                speech.style.pointerEvents = 'auto';
+
+                function openFullscreenVideo() {
+                    let overlay = document.createElement('div');
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = 0;
+                    overlay.style.left = 0;
+                    overlay.style.width = '100vw';
+                    overlay.style.height = '100vh';
+                    overlay.style.background = 'rgba(0,0,0,0.98)';
+                    overlay.style.zIndex = 99999;
+                    overlay.style.display = 'flex';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.justifyContent = 'center';
+
+                    let iframe = document.createElement('iframe');
+                    iframe.src = 'https://www.youtube.com/embed/hzDy1nTRXNk?autoplay=1';
+                    iframe.style.width = '90vw';
+                    iframe.style.height = '50vw';
+                    iframe.style.maxWidth = '900px';
+                    iframe.style.maxHeight = '70vh';
+                    iframe.style.border = 'none';
+                    iframe.allow = 'autoplay; fullscreen';
+                    iframe.allowFullscreen = true;
+
+                    if (window.innerWidth < 700) {
+                        iframe.style.width = '100vw';
+                        iframe.style.height = '56vw';
+                        iframe.style.maxWidth = '100vw';
+                        iframe.style.maxHeight = '60vh';
+                    }
+
+                    overlay.addEventListener('click', function(e) {
+                        if (e.target === overlay) {
+                            document.body.removeChild(overlay);
+                        }
+                    });
+
+                    overlay.appendChild(iframe);
+                    document.body.appendChild(overlay);
+
+                    if (overlay.requestFullscreen) {
+                        overlay.requestFullscreen();
+                    } else if (overlay.webkitRequestFullscreen) {
+                        overlay.webkitRequestFullscreen();
+                    } else if (overlay.msRequestFullscreen) {
+                        overlay.msRequestFullscreen();
+                    }
+                }
+
+                garfieldImg.addEventListener('click', openFullscreenVideo);
+                speech.addEventListener('click', openFullscreenVideo);
+                garfieldImg.addEventListener('touchend', openFullscreenVideo, {passive: true});
+                speech.addEventListener('touchend', openFullscreenVideo, {passive: true});
+            });
+        };
+        clickHeart.addEventListener('click', handleGarfieldActivation);
+        clickHeart.addEventListener('touchend', handleGarfieldActivation, { passive: false });
+    }
+});
+</script>
 
 </BODY>
 <!--                           
